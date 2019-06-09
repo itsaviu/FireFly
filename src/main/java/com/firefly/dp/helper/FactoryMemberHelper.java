@@ -1,31 +1,20 @@
 package com.firefly.dp.helper;
 
-import com.firefly.dp.annotations.FactoryMember;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
+import lombok.AllArgsConstructor;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@AllArgsConstructor
 public class FactoryMemberHelper {
 
-    @Autowired
-    private ApplicationContext context;
+    private List<Class> fireFlyClazz;
 
-    private List<Object> fireFlyClazz;
+    private Class parentClass;
 
-    @PostConstruct
-    public void initiator() {
-        this.fireFlyClazz = new ArrayList<>(context.getBeansWithAnnotation(FactoryMember.class).values());
-    }
-
-    public List<Object> accumulateByParent(Class parent) {
+    public List<Object> accumulateByParent() {
         return this.fireFlyClazz.stream()
-                .filter(clazz -> parent.isAssignableFrom(clazz.getClass()))
+                .filter(clazz -> parentClass.isAssignableFrom(clazz))
                 .collect(Collectors.toList());
     }
 }
