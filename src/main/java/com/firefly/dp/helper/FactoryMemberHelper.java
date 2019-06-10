@@ -12,7 +12,7 @@ public class FactoryMemberHelper {
 
     private Class parentClass;
 
-    public List<Object> accumulateByParent() {
+    public List<Class> accumulateByParent() {
         return this.fireFlyClazz.stream()
                 .filter(clazz -> parentClass.isAssignableFrom(clazz))
                 .collect(Collectors.toList());
